@@ -95,7 +95,12 @@ Displays a small text input to the user which allows entering numbers only.
 
 #### `Duration` input
 
-Displays a number wheel for each specified time unit. Possible time units are `seconds`, `minutes`, `hours` and `days`.
+Displays a number wheel for each specified time unit. Possible time units are `days`, `hours`, `minutes` and `seconds`.
+
+The duration is always completely returned to the constructor, meaning no duration inputs are lost.
+If for example the input is in hours, minutes and seconds, but only hours is marked as a return value, the hours value will include the minutes and seconds in its representation (potentially in the fractional part).
+
+The `$input` variable will contain all duration values marked with `return: true` in the following order: `days`, `hours`, `minutes` and `seconds`.
 
 ```jsonc
 "answer": {
@@ -103,17 +108,25 @@ Displays a number wheel for each specified time unit. Possible time units are `s
     "input": {
       // Maximum allowed value for the biggest time unit.
       "max": 3,
-      // Defines which time units are available and their step size.
-      "unit_step": {
+      // Defines the usage of minutes
+      "minutes": {
           // The time segment/step size of the minutes number wheel.
-          "minutes": 1,
-          // The time segment/step size of the seconds number wheel.
-          "seconds": 1,
+          "step": 1,
+          // Whether a separate minutes input should be shown to the user.
+          // Defaults to true when the unit is defined otherwise false.
+          "display": true,
+          // Defines whether minutes should be returned as a separate value in the answer constructor.
+          // Defaults to true when the unit is defined otherwise false.
+          "return": true,
+      },
+      // Defines the usage of seconds
+      "seconds": {
           ...
-      }
+      },
+      ...
     },
     // Mandatory since the tags/keys cannot be derived.
-    // $input will contain the entered duration in the hh:mm:ss format.
+    // The duration will be split into a separate value for each unit with "return" set to true.
     "constructor": { }
 },
 ```
