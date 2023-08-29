@@ -54,7 +54,7 @@ class MapFeature with ExpressionHandler {
       }
     });
     // replace \n with new line character
-    return result?.replaceAll(r'\n' ,'\n');
+    return result.firstOrNull?.replaceAll(r'\n' ,'\n');
   }
 
 
